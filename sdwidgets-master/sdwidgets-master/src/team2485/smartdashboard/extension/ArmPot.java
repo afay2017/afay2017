@@ -16,11 +16,11 @@ public class ArmPot extends Widget {
     public static final DataType[] TYPES = {DataType.NUMBER};
 
     private static final double MIN_VAL = 2000, MAX_VAL = 3000;
-    public static int X = 270;
-    public static int Y = 270;
+    public static int X = 280;
+    public static int Y = 280;
     private int value = 0;
     private double dec = 0;
-    private int spin = 0;
+    private int spin;
     private Color color;
 
     private BufferedImage armS;
@@ -81,12 +81,11 @@ public class ArmPot extends Widget {
     public void setValue(Object o) {
         value = ((Number) o).intValue();
         if (((value/10000)==2)||(value/10000==3)){
-            if(((value%1000==1))||((value%1000)==0)){
+            System.out.println("Made it 1");
+            if(((value%10)==1)||((value%10)==0)){
+            System.out.println("Made it 2");
             spin = value%10;
             value /= 10;
-            }else{
-            value /= 10;
-
             }
         }
         dec = (value-2427)/4;
@@ -118,19 +117,19 @@ public class ArmPot extends Widget {
             g.translate(X/2, Y/2);
             if (spin == 0){
                 g.rotate((dec-90)*Math.PI/180);
-                    g.drawImage(arm,-2, -2, this);
+                    g.drawImage(arm,-5, -5, this);
                  g.rotate(-(dec-90)*Math.PI/180);
-                 g.drawImage(circle,-10, -10, this);
+                 g.drawImage(circle,-15, -15, this);
              }
              if (spin == 1){
                 g.rotate((dec-90)*Math.PI/180);
-                    g.setColor(Color.GRAY);
-                    g.drawImage(armS,-1, -1, this);
+                    g.drawImage(armS,-5, -5, this);
                  g.rotate(-(dec-90)*Math.PI/180);
-                 g.drawImage(circleS,-10, -10, this);
+                 g.drawImage(circleS,-15, -15, this);
             }
 
                  g.translate(-X/2, -Y/2);
+                 System.out.println(""+(int)(spin));
              g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         }
