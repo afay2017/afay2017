@@ -15,11 +15,11 @@ public class AirTankWidget extends Widget {
     public static final DataType[] TYPES = {DataType.NUMBER};
 
     private static final double MAX_VAL = 120, MIN_VAL = 0;
-    private static final int MAX_DRAW_WIDTH = 135;
+    private static final int MAX_DRAW_WIDTH = 132;
 
     private double value = 70;
     private int drawWidth = 0;
-    private Color color;
+    private Color color = Color.RED;
 
     private BufferedImage airtank;
     private JLabel label;
@@ -31,7 +31,7 @@ public class AirTankWidget extends Widget {
         } catch (IOException e) {
         }
 
-        final Dimension size = new Dimension(143, 90);
+        final Dimension size = new Dimension(143, 84);
         this.setSize(size);
         this.setPreferredSize(size);
         this.setMinimumSize(size);
@@ -42,10 +42,15 @@ public class AirTankWidget extends Widget {
 
         this.add(new airtankPanel(), BorderLayout.CENTER);
 
+
         label = new JLabel("UNKNOWN");
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setForeground(Color.white);
+        label.setForeground(Color.LIGHT_GRAY);
+        label.setFont(new java.awt.Font("Ubuntu", Font.BOLD, 15));
+
         this.add(label, BorderLayout.SOUTH);
+
+
     }
 
     @Override
@@ -55,25 +60,8 @@ public class AirTankWidget extends Widget {
     @Override
     public void setValue(Object o) {
         value = ((Number) o).doubleValue();
-
-        if (value > 70) {
-            color = Color.LIGHT_GRAY;
-        } else if (value > 50) {
-            color = Color.orange;
-        } else {
-            color = Color.red;
-        }
         label.setText(String.format("%.1f PSI", value));
-        if (value > MAX_VAL) {
-            value = MAX_VAL;
-            color = Color.GRAY;
-            label.setForeground(Color.ORANGE);
-            label.setFont(new Font("Ubuntu", Font.BOLD, 14));
-        } else {
-            label.setForeground(Color.LIGHT_GRAY);
-            label.setFont(new Font("Ubuntu", Font.PLAIN, 14));
-        }
-        //label.setForeground(value > 40 ? Color.white : Color.red);
+
         drawWidth = (int) ((value - MIN_VAL) / (MAX_VAL - MIN_VAL) * MAX_DRAW_WIDTH);
         repaint();
     }
@@ -89,8 +77,14 @@ public class AirTankWidget extends Widget {
             final Graphics2D g = (Graphics2D) gg;
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             if (drawWidth > 0) {
+                g.setColor(new java.awt.Color(100, 100, 100, 100));
+                g.fillRoundRect(5, 5,  MAX_DRAW_WIDTH, 50, 8, 8);
+                if (value>120)
+                    value=120;
+                color = (new java.awt.Color(((int)(255-(1/(value*value*.005) + (value)))), ((int)(((value*value*.005) + (value)))+25), ((int)(0.2*Math.abs((Math.abs((value)-70))-60)))));
                 g.setColor(color);
                 g.fillRoundRect(5, 5, drawWidth, 50, 8, 8);
+
             }
             g.drawImage(airtank, 0, 0, this);
 
