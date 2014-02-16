@@ -7,16 +7,14 @@ import java.awt.Color;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import team2485.smartdashboard.extension.JDial;
-import team2485.smartdashboard.extension.Dial;
-
+import javax.swing.border.*;
 
 public class PotWidget extends Widget {
     public static final String NAME = "Pot Widget";
-    public static final DataType[] TYPES = { DataType.STRING };    
-    private ImageIcon trueImage, falseImage;
-    Dial a = new Dial();
+    public static final DataType[] TYPES = { DataType.STRING };
     
+    private ImageIcon trueImage, falseImage;
+
     @Override
     public void init() {
         initComponents();
